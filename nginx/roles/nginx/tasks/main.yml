@@ -1,0 +1,39 @@
+---
+- name: Install nginx
+  apt:
+    name: nginx
+    state: present
+  become: yes
+
+- name: Start nginx
+  service:
+    name: nginx
+    state: started
+  become: yes
+
+- name: Create HTML Directory
+  file:
+    path: /var/www/html/
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  become: yes
+
+- name: Copy Website File
+  copy:
+    src: ../static/index.html
+    dest: /var/www/html/index.html
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart nginx
+  become: yes
+
+- name: Run nginx playbook every 30 mins"
+  cron:
+    name: "Run nginx playbook"
+    minute: "0,30"
+    job: "/bin/bash -c /opt/ansible/nginx/nginx.sh"
+  become: yes
