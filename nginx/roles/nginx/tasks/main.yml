@@ -21,8 +21,8 @@
   become: yes
 
 - name: Copy Website File
-  copy:
-    src: ../static/index.html
+  template:
+    src: ../templates/index.html
     dest: /var/www/html/index.html
     owner: root
     group: root
