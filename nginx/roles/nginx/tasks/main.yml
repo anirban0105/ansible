@@ -31,6 +31,15 @@
     - restart nginx
   become: yes
 
+- name: Ensure Ansible script has execute permissions
+  file:
+    path: /opt/ansible/nginx/nginx.sh
+    state: file
+    owner: root
+    group: root
+    mode: 0755
+  become: yes
+
 - name: Run nginx playbook every 30 mins"
   cron:
     name: "Run nginx playbook"
